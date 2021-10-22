@@ -1,0 +1,90 @@
+You will need:
+ - macOS computer with up-to-date operating system
+ - seed phrases or private keys for enough of the owners to make a transaction from one computer
+
+## Set Up
+
+Open Terminal app.
+
+Install development tools for the safe-cli to work
+
+Install Xcode developer tools
+
+    xcode-select --install
+
+Install Homebrew - a package manager that will be needed to install other programs.
+
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+Install python version manager
+
+    brew install pyenv
+
+Check your shell
+    echo $0
+
+If it prints "bash" then use "FOR BASH:" below, if it is "zsh", then use "FOR ZSH"
+    
+FOR ZSH: Configure the pyenv (https://github.com/pyenv/pyenv#basic-github-checkout)
+
+    echo 'eval "$(pyenv init --path)"' >> ~/.zprofile
+
+FOR BASH:
+    echo -e \
+        ' export PYENV_ROOT="$HOME/.pyenv"' \
+        '\n export PATH="$PYENV_ROOT/bin:$PATH"' \
+        '\n eval "$(pyenv init --path)"' \
+        '\n' >> ~/.bash_profile
+
+Close the Terminal app and open it again.
+
+Install python build dependencies
+
+    brew install openssl readline sqlite3 xz zlib
+    
+Install python 3.8.11
+
+    pyenv install 3.8.11
+
+Configure system to use the installed python
+
+    pyenv global 3.8.11
+
+Let's check that pyenv version
+
+Download the safe-cli code
+
+    git clone https://github.com/gnosis/safe-cli.git
+
+Enter the code directory
+    cd safe-cli
+
+Create a virtual environment
+    stat venv 2>/dev/null || python -m venv venv
+
+Install the dependencies
+    source venv/bin/activate && pip install -r requirements.txt
+
+Obtain a node URL
+    For Ethereum Mainnet: https://mainnet.infura.io/v3/<Your Project ID>
+        - Register an account at https://infura.io/register to get your project ID.
+    For BSC Mainnet: https://bsc-dataseed.binance.org
+    For Polygon Mainnet: https://polygon-mainnet.infura.io/v3/<Your Project ID>
+      - Register an account at https://infura.io/register to get your project ID.
+
+Start the tool to load your safe on the chain
+
+    python safe_cli.py <SAFE ADDRESS> <NODE URL>
+
+Load the owner keys - either with private keys or with a word list.
+To load with private keys
+
+    load_cli_owners <key1> <key2> <...>
+
+To load with word list
+
+    load_cli_owners_from_words <word list>
+
+Send MATIC/ETHER/BNB
+
+    send_ether <RECIPIENT ADDRESS> <AMOUNT IN WEI/in decimals, wihtout a point>
